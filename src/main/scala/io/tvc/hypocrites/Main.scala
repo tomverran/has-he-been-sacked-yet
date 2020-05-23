@@ -16,7 +16,7 @@ object Main extends IOApp {
   val config: IO[(String, Int)] =
     IO.fromOption(
       for {
-        url <- sys.env.get("REDISCLOUD_URL")
+        url <- sys.env.get("REDIS_URL")
         port <- sys.env.get("PORT").map(_.toInt) // sorry
       } yield (url, port)
     )(new Exception("All you needed is two env vars and still you fail."))
