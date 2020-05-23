@@ -40,6 +40,7 @@ object VoteStore {
     Resource.liftF(
       RedisURI.make(url).flatTap { url =>
         Sync[F].delay {
+          url.underlying.setPort(url.underlying.getPort + 1)
           url.underlying.setVerifyPeer(false)
           url.underlying.setSsl(true)
         }
