@@ -1,0 +1,55 @@
+<!doctype html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Has Dominic Cummings been sacked yet?</title>
+    <!-- as you can see I am a talented full stack developer -->
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Open Sans', sans-serif;
+        text-align: center;
+    }
+    #question {
+        margin-top: 10px;
+        font-weight: normal;
+        font-size: 72px;
+    }
+    #answer {
+        font-weight: bold;
+        font-size: 120px;
+    }
+    input.has_voted {
+        visibility: hidden;
+    }
+    #thanks.not_voted {
+        visibility: hidden;
+    }
+    input {
+        margin: auto;
+        display: block;
+        cursor: pointer;
+        background-color: #0076d1;
+        border-radius: 50px;
+        padding: 10px 30px;
+        border: none;
+        color: white;
+    }
+    input:hover {
+        background-color: #2992e3;
+    }
+    p, input {
+        font-size: 24px;
+    }
+</style>
+</head>
+<body>
+<h1 id="question">Has Dominic Cummings been sacked yet?</h1>
+<h1 id="answer">No.</h1>
+<p>{{count}} people don't understand why</p>
+<form method="post" class="{{status}}" target="">
+    <input type="submit" value="Nor do I, now you mention it">
+</form>
+<p id="thanks" class="{{status}}">Thanks, I can certainly empathise.</p>
+</body>
