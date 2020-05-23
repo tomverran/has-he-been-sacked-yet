@@ -47,7 +47,18 @@
     p, input {
         font-size: 24px;
     }
+    #explanation {
+        margin: auto;
+        max-width: 800px;
+        padding: 0px 20px;
+        margin-top: 60px;
+        font-size: 14px;
+        color: #666;
+    }
     @media screen and (max-width: 600px) {
+        #answer {
+            margin: 40px 0px;
+        }
         #question {
             font-size: 40px;
          }
@@ -60,10 +71,14 @@
     <body>
         <h1 id="question">Has Dominic Cummings been sacked yet?</h1>
         <h1 id="answer">No.</h1>
-        <p>{{count}} people don't understand why</p>
+        <p>{{count}} people don't understand why.</p>
         <form method="post" class="{{status}}" target="">
-            <input type="submit" value="Nor do I, now you mention it">
+            <input type="submit" value="Nor do I, now you mention it.">
         </form>
         <p id="thanks" class="{{status}}">I can certainly empathise.</p>
+        <p id="explanation">
+            Clicking the button will store your IP address and set a cookie to try and reduce duplicate submissions.
+            No other information will be stored. You can see the code on <a href="https://github.com/tomverran/has-he-been-sacked-yet">GitHub</a>.
+        </p>
     </body>
 </html>
