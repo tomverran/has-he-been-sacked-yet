@@ -6,9 +6,10 @@ import cats.syntax.flatMap._
 import cats.syntax.functor._
 import cats.syntax.traverse._
 import org.http4s.EntityEncoder.stringEncoder
+import org.http4s.HttpDate.MaxValue
 import org.http4s.MediaType.text
 import org.http4s.dsl.Http4sDsl
-import org.http4s.headers.{Cookie, `Content-Type`, `Set-Cookie`, `X-Forwarded-For`}
+import org.http4s.headers.{`Content-Type`, `Set-Cookie`, `X-Forwarded-For`}
 import org.http4s.{EntityEncoder, HttpRoutes, Request, ResponseCookie}
 
 import scala.io.Source
@@ -22,13 +23,22 @@ class Routes[F[_]: Sync](store: VoteStore[F]) extends Http4sDsl[F] {
     content
   }
 
+  val votedCookie: ResponseCookie =
+    ResponseCookie(
+      name = "voted",
+      content = "1",
+      expires = Some(MaxValue),
+      httpOnly = true,
+      path = Some("/")
+    )
+
   implicit val encode: EntityEncoder[F, String] =
     stringEncoder[F].withContentType(`Content-Type`(text.html))
 
   def homepage(req: Request[F]): F[String] =
     for {
       votes <- store.total
-      voted = req.headers.get(Cookie).exists(_.name == "voted")
+      voted = req.cookies.exists(_.name == "voted")
     } yield template
       .replace("{{count}}", votes.toString)
       .replace("{{status}}", if (voted) "has_voted" else "not_voted")
@@ -45,6 +55,6 @@ class Routes[F[_]: Sync](store: VoteStore[F]) extends Http4sDsl[F] {
           } yield original
         ).traverse(store.logVote)
          .flatMap(_.as(Created(homepage(req))).getOrElse(BadRequest(homepage(req))))
-         .map(_.withHeaders(`Set-Cookie`(ResponseCookie("voted", "true"))))
+         .map(_.withHeaders(`Set-Cookie`(votedCookie)))
     }
 }
