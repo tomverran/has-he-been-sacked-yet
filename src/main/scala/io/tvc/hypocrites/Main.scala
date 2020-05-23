@@ -18,7 +18,7 @@ object Main extends IOApp {
       for {
         url <- sys.env.get("REDIS_URL")
         port <- sys.env.get("PORT").map(_.toInt) // sorry
-      } yield (url, port)
+      } yield (url, port + 1) // port + 1 means we get SSL
     )(new Exception("All you needed is two env vars and still you fail."))
 
   def httpApp(routes: Routes[IO], port: Int): Resource[IO, Server[IO]] =
