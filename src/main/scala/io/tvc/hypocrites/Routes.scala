@@ -35,18 +35,20 @@ class Routes[F[_]: Sync](store: VoteStore[F]) extends Http4sDsl[F] {
   implicit val encode: EntityEncoder[F, String] =
     stringEncoder[F].withContentType(`Content-Type`(text.html))
 
-  def homepage(req: Request[F]): F[String] =
-    for {
-      votes <- store.total
-      voted = req.cookies.exists(_.name == "voted")
-    } yield template
-      .replace("{{count}}", votes.toString)
-      .replace("{{status}}", if (voted) "has_voted" else "not_voted")
+  def hasVotedCookie(req: Request[F]): Boolean =
+    req.cookies.exists(_.name == "voted")
+
+  def homepage(voted: Boolean): F[String] =
+    store.total.map { votes =>
+      template
+        .replace("{{count}}", votes.toString)
+        .replace("{{status}}", if (voted) "has_voted" else "not_voted")
+    }
 
   val routes: HttpRoutes[F] =
     HttpRoutes.of {
       case req @ GET -> Root =>
-        homepage(req).flatMap(Ok(_))
+        homepage(hasVotedCookie(req)).flatMap(Ok(_))
       case req @ POST -> Root =>
         (
           for {
@@ -54,7 +56,7 @@ class Routes[F[_]: Sync](store: VoteStore[F]) extends Http4sDsl[F] {
             original <- header.values.head
           } yield original
         ).traverse(store.logVote)
-         .flatMap(_.as(Created(homepage(req))).getOrElse(BadRequest(homepage(req))))
+         .flatMap(_.as(Created(homepage(true))).getOrElse(BadRequest(homepage(false))))
          .map(_.withHeaders(`Set-Cookie`(votedCookie)))
     }
 }
