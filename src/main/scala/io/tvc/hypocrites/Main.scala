@@ -1,7 +1,6 @@
 package io.tvc.hypocrites
 
 import cats.effect.{ExitCode, IO, IOApp, Resource}
-import cats.syntax.flatMap._
 import dev.profunktor.redis4cats.effect.Log
 import org.http4s.server.Server
 import org.http4s.server.blaze.BlazeServerBuilder
