@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
     <title>Has Dominic Cummings been sacked yet?</title>
     <!-- as you can see I am a talented full stack developer -->
     <style>
@@ -55,6 +56,18 @@
         font-size: 14px;
         color: #666;
     }
+
+    #tweet {
+        font-size: 18px;
+        text-decoration: none;
+        margin-left: 5px;
+        padding: 5px 15px;
+        border-radius: 20px;
+        background-color: #38A1F3;
+        font-weight: bold;
+        color: white;
+    }
+
     @media screen and (max-width: 600px) {
         #answer {
             margin: 20px 0px;
@@ -64,10 +77,13 @@
         }
         #question {
             font-size: 35px;
-         }
-         p, input {
-            font-size: 18px;
-         }
+        }
+        #tweet {
+            font-size: 14px;
+        }
+        p, input {
+           font-size: 18px;
+        }
     }
     </style>
     </head>
@@ -78,7 +94,11 @@
         <form method="post" class="{{status}}" target="">
             <input type="submit" value="Nor do I, now you mention it.">
         </form>
-        <p id="thanks" class="{{status}}">I can certainly empathise.</p>
+
+        <p id="thanks" class="{{status}}">
+            I can certainly empathise.
+            <a id="tweet" href="https://twitter.com/intent/tweet?text=I%20am%20one%20of%20{{count}}%20people%20who%20don%27t%20understand%20why%20Dominic%20Cummings%20hasn%27t%20been%20sacked.%20Do%20you%3F%20https%3A%2F%2Fhascummingsbeensackedyet.uk%20%23sackcummings">Tweet this!</a>
+        </p>
         <p id="explanation">
             Clicking the button will store your IP address and set a cookie to try and reduce duplicate submissions.
             No other information will be stored. You can see the code on <a href="https://github.com/tomverran/has-he-been-sacked-yet">GitHub</a>.
